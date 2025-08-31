@@ -72,6 +72,10 @@ jobs:
           cp ../pyproject.toml ./
           cp -r ../src ./
           cp ../main.py ./
+          # Copy only needed assets
+          mkdir -p ./assets/static
+          cp ../assets/static/bg.jpg ./assets/static/
+          cp ../assets/styles.css ./assets/
 
           # Track binary files with Git LFS
           git lfs track "*.jpg" "*.png" "*.jpeg" "*.gif" "*.bmp" "*.tiff" "*.webp"

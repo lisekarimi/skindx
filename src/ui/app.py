@@ -30,8 +30,12 @@ st.set_page_config(
 
 def load_custom_styles():
     """Load custom CSS styling."""
-    css_file = os.path.join(os.path.dirname(__file__), "assets", "styles.css")
-    bg_image = os.path.join(os.path.dirname(__file__), "assets", "static", "bg.jpg")
+    css_file = os.path.join(
+        os.path.dirname(__file__), "..", "..", "assets", "styles.css"
+    )
+    bg_image = os.path.join(
+        os.path.dirname(__file__), "..", "..", "assets", "static", "bg.jpg"
+    )
 
     try:
         css_with_bg = load_css_with_background(css_file, bg_image)

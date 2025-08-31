@@ -13,7 +13,7 @@ Upload a skin photo and the AI will classify it into one of 7 lesion types.
 
 [🚀 **Try the Live Demo**](https://huggingface.co/spaces/lisekarimi/skindx-demo)
 
-<img src="https://github.com/lisekarimi/skindx/blob/main/src/ui/assets/static/fullpage.png?raw=true" alt="SkindDx interface" width="450">
+<img src="https://github.com/lisekarimi/skindx/blob/main/assets/static/fullpage.png?raw=true" alt="SkindDx interface" width="450">
 
 **SkinDx is an AI-powered web app** that uses a fine-tuned **ResNet-50** CNN model trained on the **HAM10000 dataset** to classify skin lesions into 7 categories.
 
