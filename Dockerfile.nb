@@ -1,0 +1,8 @@
+FROM nvcr.io/nvidia/pytorch:25.06-py3
+WORKDIR /app
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/uv
+COPY pyproject.toml uv.lock ./
+RUN uv sync --extra notebooks
+COPY . .
+EXPOSE 8888 5000
+CMD ["uv", "run", "jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root", "--notebook-dir=/workspace"]

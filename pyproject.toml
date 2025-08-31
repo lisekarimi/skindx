@@ -1,0 +1,61 @@
+[project]
+name = "skindx"
+version = "0.1.0"
+description = "AI that detects skin cancer and answers dermatology questions"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "requests",
+    "pillow",
+    "numpy",
+    "torch",
+    "torchvision",
+    "plotly",
+    "huggingface_hub"
+]
+
+[project.optional-dependencies]
+notebooks = [
+    "jupyter",
+    "matplotlib",
+    "opencv-python",
+    "tqdm",
+    "mlflow",
+    "scikit-learn",
+    "seaborn",
+    "pandas",
+    "dotenv"
+]
+app = [
+    "fastapi",
+    "uvicorn[standard]",
+    "python-multipart",
+    "streamlit",
+]
+
+test = [
+    "pytest",
+    "pytest-cov",
+]
+
+[tool.ruff]
+exclude = ["notebooks/"]
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort (import sorting)
+    "B",    # flake8-bugbear (common bugs)
+    "UP",   # pyupgrade (modern Python)
+    "D",    # pydocstyle (docstrings)
+]
+
+ignore = [
+    # "E501",  # line too long
+    "D100",  # missing docstring in public module
+    "D104",  # missing docstring in public package
+    "D203",  # incorrect-blank-line-before-class
+    "D213",  # multi-line-summary-second-line
+]

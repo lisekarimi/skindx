@@ -1,0 +1,51 @@
+services:
+  notebooks:
+    build:
+      context: .
+      dockerfile: Dockerfile.nb
+    image: ${DOCKER_USERNAME}/${PROJECT_NAME}-notebooks:${VERSION}
+    container_name: ${PROJECT_NAME}-notebooks
+    ports:
+      - "8888:8888"  # Jupyter Lab
+      - "5000:5000"  # MLflow
+    volumes:
+      - "./:/workspace"
+    ipc: "host"
+    ulimits:
+      memlock: -1
+      stack: 67108864
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ${DOCKER_USERNAME}/${PROJECT_NAME}-app:${VERSION}
+    container_name: ${PROJECT_NAME}-app
+    ports:
+      - "7860:7860"  # Streamlit
+      - "8000:8000"  # FastAPI
+    volumes:
+      - ".:/app"                    # Live code reload
+    environment:
+      - PYTHONPATH=/app
+      - STREAMLIT_SERVER_RELOAD_ON_CHANGE=true
+      - UVICORN_RELOAD=true
+    command: >
+      sh -c "
+        uvicorn main:app --host 0.0.0.0 --port 8000 --reload &
+        streamlit run src/ui/app.py --server.address 0.0.0.0 --server.port 7860 --server.fileWatcherType poll --server.runOnSave true
+      "
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]

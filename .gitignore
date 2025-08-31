@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[co]
+*.pyo
+build/
+dist/
+wheels/
+*.egg-info/
+
+# Jupyter
+.ipynb_checkpoints/
+notebooks/data/
+notebooks/mlflow_storage/
+
+# Virtual environments
+.venv/
+
+# IDE / Editor
+.vscode/
+
+# Environment
+.env
+
+# Tests
+run_tests.py
+.pytest_cache/
+htmlcov/
+.coverage
+
+# Project caches & artifacts
+.cache/
+models/

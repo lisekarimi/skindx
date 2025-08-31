@@ -1,0 +1,48 @@
+# Git
+.git
+.gitignore
+.github/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.python-version
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+notebooks/
+
+# IDE / Editor
+.vscode/
+
+# Environment
+.env
+.env.example
+.venv/
+
+# Docker
+.dockerignore
+Dockerfile
+Dockerfile.nb
+docker-compose*.yml
+
+# Tests
+.pytest_cache/
+.coverage
+htmlcov/
+run_tests.py
+tests/
+
+# Project caches & build artifacts
+.cache/
+.ruff_cache/
+uploads/
+models/
+
+# Misc
+CHANGELOG.md
+Makefile
+README.md
+act.mk
