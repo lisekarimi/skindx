@@ -1,8 +1,8 @@
 ---
 title: SkinDx
 emoji: 🔬
-colorFrom: gray
-colorTo: cyan
+colorFrom: yellow
+colorTo: indigo
 sdk: docker
 short_description: AI-Powered Skin Lesion Analysis
 ---
