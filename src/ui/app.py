@@ -93,8 +93,12 @@ def render_sidebar():
 
         # Version and Changelog
         st.markdown("---")
-        st.markdown(f"**Version:** `{sidebar_info['version']}`")
-        st.markdown(f"📝 [View Changelog]({sidebar_info['changelog_url']})")
+        st.markdown("### Project Info")
+        st.markdown(
+            f"🔖 **Version:** `{sidebar_info['version']}` | "
+            f"📝 [Changelog]({sidebar_info['changelog_url']}) | "
+            f"📚 [Wiki]({sidebar_info['doc_url']})"
+        )
 
 
 def render_prediction_results(result):
