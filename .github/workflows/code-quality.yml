@@ -41,26 +41,36 @@ jobs:
     needs: lint
     steps:
       - uses: actions/checkout@v4
+
+      - id: py
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
       - uses: astral-sh/setup-uv@v4
         with: { version: latest }
 
-      - name: Cache venv
+      - name: Cache uv global cache
+        uses: actions/cache@v4
+        with:
+          path: $HOME/.cache/uv
+          key: ${{ runner.os }}-uv-py${{ steps.py.outputs.python-version }}-${{ hashFiles('uv.lock', 'pyproject.toml') }}
+          restore-keys: ${{ runner.os }}-uv-py${{ steps.py.outputs.python-version }}-
+
+      - name: Cache virtual environment
         uses: actions/cache@v4
         with:
           path: .venv
-          key: ${{ runner.os }}-venv-${{ hashFiles('pyproject.toml') }}
-          restore-keys: ${{ runner.os }}-venv-
+          key: ${{ runner.os }}-venv-py${{ steps.py.outputs.python-version }}-${{ hashFiles('uv.lock', 'pyproject.toml') }}
+          restore-keys: ${{ runner.os }}-venv-py${{ steps.py.outputs.python-version }}-
 
-      - name: Install deps (with test extra)
-        run: uv sync --extra test  # installs base + test deps into .venv
+      - name: Install dependencies
+        run: uv sync --extra test --frozen
 
       - name: Run unit tests
         run: |
           mkdir -p reports
-          # Show coverage table in logs AND save to reports/coverage.txt
-          PYTHONPATH=$PWD uv run pytest tests \
-            --cov=src \
-            --cov-report=term-missing | tee reports/coverage.txt
+          uv run pytest tests --cov=src --cov-report=term-missing | tee reports/coverage.txt
 
       - name: Upload coverage report
         if: ${{ !env.ACT }}
