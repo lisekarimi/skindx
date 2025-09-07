@@ -33,6 +33,14 @@ Upload a skin photo and the AI will classify it into one of 7 lesion types.
 ⚠️ **Disclaimer:** This tool is **not a medical device**.
 Results are for **educational purposes only** – always consult a dermatologist.
 
+## 🛠️ Pre-requisites
+
+- Python 3.11.x (not 3.12+)
+- [uv package manager](https://docs.astral.sh/uv/getting-started/installation/)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+- Make: `winget install GnuWin32.Make` (Windows) | `brew install make` (macOS) | `sudo apt install make` (Linux)
+- GPU – model trained on RTX 5080
+
 ## 🔧 Setup & Architecture
 
 Runs with **Docker Desktop** (WSL2 on Windows recommended). This ensures consistent environments across systems.
