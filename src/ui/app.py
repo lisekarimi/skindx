@@ -4,7 +4,7 @@ import os
 import streamlit as st
 from PIL import Image
 
-from src.constants import CLASS_NAMES
+from src.constants import LESION_CATEGORIES
 from src.ui.ui_utils import (
     create_confidence_chart,
     format_prediction_result,
@@ -83,8 +83,10 @@ def render_sidebar():
             st.text(sidebar_info["technical_details"])
 
         st.markdown("### Supported Lesion Types")
-        for class_code, description in CLASS_NAMES.items():
-            st.write(f"• {description} ({class_code.upper()})")
+        for category, lesions in LESION_CATEGORIES.items():
+            st.markdown(category)
+            for code, description in lesions:
+                st.write(f"• {description} ({code.upper()})")
 
         # Social links
         st.markdown("---")

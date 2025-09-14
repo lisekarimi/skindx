@@ -29,3 +29,16 @@ CLASS_NAMES = {
     "nv": "Melanocytic nevi",
     "vasc": "Vascular lesions",
 }
+
+LESION_CATEGORIES = {
+    "**Malignant (Cancer):**": [("bcc", "Basal cell carcinoma"), ("mel", "Melanoma")],
+    "**Pre-cancerous:**": [
+        ("akiec", "Actinic keratoses and intraepithelial carcinoma")
+    ],
+    "**Benign (Non-cancer):**": [
+        ("bkl", "Benign keratosis-like lesions"),
+        ("df", "Dermatofibroma"),
+        ("nv", "Melanocytic nevi"),
+        ("vasc", "Vascular lesions"),
+    ],
+}
