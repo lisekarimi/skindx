@@ -2,6 +2,7 @@
 .git
 .gitignore
 .github/
+.pre-commit-config.yaml
 
 # Python
 __pycache__/
