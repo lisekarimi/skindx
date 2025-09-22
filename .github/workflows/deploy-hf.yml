@@ -76,6 +76,7 @@ jobs:
           mkdir -p ./assets/static
           cp ../assets/static/bg.jpg ./assets/static/
           cp ../assets/styles.css ./assets/
+          cp -r ../.streamlit ./
 
           # Track binary files with Git LFS
           git lfs track "*.jpg" "*.png" "*.jpeg" "*.gif" "*.bmp" "*.tiff" "*.webp"
