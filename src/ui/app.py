@@ -208,6 +208,15 @@ def main():
     # Render main interface
     render_upload_interface()
 
+    st.markdown(
+        """
+        <a href="/docs/" class="floating-chat-btn" target="_blank">
+            💬 Chat with our AI Assistant
+        </a>
+        """,
+        unsafe_allow_html=True,
+    )
+
 
 if __name__ == "__main__":
     main()
