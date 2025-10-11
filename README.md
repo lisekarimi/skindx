@@ -1,17 +1,8 @@
----
-title: SkinDx
-emoji: 🔬
-colorFrom: yellow
-colorTo: indigo
-sdk: docker
-short_description: AI-Powered Skin Lesion Analysis
----
-
 # 🔬 SKINDX – AI Skin Lesion Analysis
 
 Upload a skin photo and the AI will classify it into one of 7 lesion types.
 
-[🚀 **Try the Live Demo**](https://huggingface.co/spaces/lisekarimi/skindx-demo)
+[🚀 **Try the Live Demo**](https://skindx.lisekarimi.com)
 
 <img src="https://github.com/lisekarimi/skindx/blob/main/assets/static/fullpage.png?raw=true" alt="SkindDx interface" width="450">
 
@@ -65,7 +56,7 @@ make up
 ```
 
 * Streamlit UI → `http://localhost:7860`
-* FastAPI Docs (**Swagger UI**) → `http://localhost:8000/docs`
+* FastAPI Docs (**Swagger UI**) → `http://localhost:8000/api-docs`
 * Jupyter/MLflow (notebooks) → `http://localhost:8888`
   > ⚠️ The first time you start notebooks, Jupyter requires an **access token**.
   > Copy the full URL with `?token=...` from the container logs (shown in the terminal).
@@ -95,4 +86,4 @@ This project includes a full **CI/CD pipeline** (tests, linting, security scans,
 
 ## 📖 Documentation
 
-Additional details are available in the **[Wiki](https://github.com/lisekarimi/skindx/wiki)**.
+Additional details are available [here](https://skindx.lisekarimi.com/docs/#/).

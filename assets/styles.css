@@ -163,6 +163,75 @@ div[data-testid="stTable"] {
     display: none !important;
 }
 
+/* Floating chat button - FIXED VERSION */
+.floating-chat-btn {
+    position: fixed !important;
+    bottom: 30px !important;
+    right: 30px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    background: linear-gradient(135deg, #594bed 0%, #7c3aed 100%) !important;
+    color: white !important;
+    padding: 1rem 1.75rem !important;
+    border-radius: 50px !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    font-size: 1rem !important;
+    box-shadow: 0 4px 20px rgba(89, 75, 237, 0.5) !important;
+    z-index: 999999 !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    white-space: nowrap !important;
+    pointer-events: auto !important;
+}
+
+.floating-chat-btn:hover {
+    transform: translateY(-3px) scale(1.02) !important;
+    box-shadow: 0 8px 24px rgba(89, 75, 237, 0.7) !important;
+    text-decoration: none !important;
+    color: white !important;
+}
+
+.floating-chat-btn:active {
+    transform: translateY(-1px) scale(0.98) !important;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+    .floating-chat-btn {
+        bottom: 25px !important;
+        right: 25px !important;
+        font-size: 0.95rem !important;
+        padding: 0.875rem 1.5rem !important;
+    }
+}
+
+/* Mobile - Keep button visible and accessible */
+@media (max-width: 768px) {
+    /* Add padding to main content so button doesn't overlap */
+    section[data-testid="stMain"] > div {
+        padding-bottom: 100px !important;
+    }
+
+    .floating-chat-btn {
+        bottom: 20px !important;
+        right: 20px !important;
+        left: auto !important;  /* Don't stretch full width */
+        font-size: 0.9rem !important;
+        padding: 0.875rem 1.25rem !important;
+    }
+}
+
+/* Extra small mobile */
+@media (max-width: 480px) {
+    .floating-chat-btn {
+        bottom: 15px !important;
+        right: 15px !important;
+        font-size: 0.85rem !important;
+        padding: 0.75rem 1rem !important;
+    }
+}
+
 /* Mobile responsiveness */
 @media (max-width: 768px) {
     .main-header {

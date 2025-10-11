@@ -1,0 +1,8 @@
+- [🏠 Home](README.md)
+- [🏗️ Architecture](architecture.md)
+- [🐳 Setup & Deployment](setup-deployment.md)
+- [⚙️ CI/CD](cicd.md)
+- [🧪 Testing Strategy](testing.md)
+- [📊 Training Pipeline](training-pipeline.md)
+- [📦 Model Management](model-management.md)
+- [📡 Services](services.md)
