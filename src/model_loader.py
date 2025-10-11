@@ -1,5 +1,6 @@
 # src/model_loader.py
 import logging
+import os
 import time
 
 import requests
@@ -37,6 +38,13 @@ class ModelLoader:
         self.model = None
         self.class_names = list(CLASS_NAMES.keys())
 
+        # Get HF token from environment
+        self.hf_token = os.getenv("HF_TOKEN")
+        if self.hf_token:
+            logger.info("HuggingFace token found, using authenticated access")
+        else:
+            logger.warning("No HF_TOKEN found, using anonymous access (rate limited)")
+
         logger.info(f"Using device: {self.device}")
 
         # Download and load model from HF with retry logic
@@ -59,6 +67,7 @@ class ModelLoader:
                     repo_id=repo_id,
                     filename=filename,
                     revision="217a9639ec46e2c5fd241973433c6ad69f984f54",
+                    token=self.hf_token,
                 )
             except requests.HTTPError as e:
                 if e.response.status_code == 401:
