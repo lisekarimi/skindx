@@ -1,7 +1,11 @@
 FROM python:3.11-slim
 
-# Install nginx and uv
-RUN apt-get update && apt-get install -y nginx && rm -rf /var/lib/apt/lists/*
+# Install system dependencies
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends nginx curl && \
+    rm -rf /var/lib/apt/lists/*
+
+# Install uv
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 
 # Create non-root user
@@ -19,31 +23,47 @@ ENV STREAMLIT_BROWSER_GATHER_USAGE_STATS=false
 
 WORKDIR /app
 
-# Install dependencies
-COPY pyproject.toml uv.lock ./
-RUN uv venv "$UV_PROJECT_ENVIRONMENT" && uv sync --no-dev --extra app
+# Copy only pyproject.toml (NO uv.lock)
+COPY pyproject.toml ./
 
-# Copy source code
+# Create venv
+RUN uv venv "$UV_PROJECT_ENVIRONMENT"
+
+# Install PyTorch CPU-only FIRST
+RUN uv pip install \
+    torch==2.5.1 \
+    torchvision==0.20.1 \
+    --index-url https://download.pytorch.org/whl/cpu
+
+# Install other dependencies WITHOUT lock file
+RUN uv pip install \
+    requests \
+    pillow \
+    numpy \
+    plotly \
+    huggingface_hub \
+    fastapi \
+    "uvicorn[standard]" \
+    python-multipart \
+    streamlit
+
+# Copy application code
 COPY . .
 
 # Copy nginx configuration
 COPY nginx.conf /etc/nginx/sites-available/default
 
-# Set proper permissions
+# Set permissions
 RUN chown -R appuser:appuser /app /opt/venv && \
     chown -R appuser:appuser /var/log/nginx /var/lib/nginx && \
     touch /var/run/nginx.pid && \
     chown appuser:appuser /var/run/nginx.pid
 
-# Switch to non-root user
 USER appuser
 
-# Expose nginx port
 EXPOSE 80
 
-# Copy startup script
 COPY --chown=appuser:appuser start.sh /app/start.sh
 RUN chmod +x /app/start.sh
 
-# Run nginx with both services
 CMD ["/app/start.sh"]
