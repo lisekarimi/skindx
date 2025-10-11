@@ -1,5 +1,25 @@
 # 📝 Changelog
 
+## [0.2.0]
+
+### ✨ Added
+- Nginx reverse proxy for unified service routing
+- Docsify documentation at `/docs` endpoint
+- Hot reload support for development (assets, src, docs folders)
+- Production-ready Docker configuration
+
+### 🔄 Changed
+- FastAPI Swagger UI moved from `/docs` to `/api-docs`
+- Disabled ReDoc documentation
+- Single port access (80) for all services via Nginx
+- Updated deployment structure with clean URL routing
+
+### 🐛 Fixed
+- Service access through unified entry point
+- Mobile responsiveness for floating chat button
+- Dark/light mode theming for Streamlit UI
+
+
 ## [0.1.0]
 ### ✨ Added
 - Initial project structure (`src/`, `main.py`, `notebooks/`, `tests/`)
