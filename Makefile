@@ -17,7 +17,7 @@ CONTAINER_NAME_APP = $(PROJECT_NAME)-app
 # =======================
 # 🐳 Docker Compose Commands
 # =======================
-build: ## Build all services
+build-all: ## Build all services
 	docker-compose build
 
 up: ## Run all services
@@ -33,25 +33,36 @@ down: ## Stop all services
 	docker-compose down
 
 # =======================
-# 🐋 Docker Commands (HF Spaces)
+# 🐋 Docker Commands
 # =======================
-DOCKER_IMAGE_HF = $(DOCKER_USERNAME)/$(PROJECT_NAME)-hf:$(VERSION)
-CONTAINER_NAME_HF = $(PROJECT_NAME)-container
+DOCKER_IMAGE = $(DOCKER_USERNAME)/$(PROJECT_NAME):$(VERSION)
+CONTAINER_NAME = $(PROJECT_NAME)-container
 
-hf-build: ## Build Docker image for HF Spaces
-	docker build -t $(DOCKER_IMAGE_HF) .
+build: ## Build Docker image
+	docker build -t $(DOCKER_IMAGE) .
 
-hf-run: ## Run Docker container locally (test HF deployment) with hot reload
-	docker run -it --rm --name $(CONTAINER_NAME_HF) \
+run: ## Run container locally
+	docker run -d --rm --name $(CONTAINER_NAME) \
 	  --env-file .env \
-	  -v $(CURDIR):/app \
-	  -w /app \
-	  -p 7860:7860 -p 8000:8000 \
-	  --user root \
-	  $(DOCKER_IMAGE_HF)
+	  -p 80:80 \
+	  -v $(CURDIR)/assets:/app/assets \
+	  -v $(CURDIR)/src:/app/src \
+	  -v $(CURDIR)/docs:/app/docs \
+	  $(DOCKER_IMAGE)
 
-hf-stop: ## Stop running Docker container
-	docker stop $(CONTAINER_NAME_HF)
+list : ## List files inside the container
+	docker run --rm $(DOCKER_IMAGE) ls -la /app
+
+logs: ## View container logs
+	docker logs -f $(CONTAINER_NAME)
+
+stop: ## Stop the Docker container
+	docker stop $(CONTAINER_NAME) || true
+
+clean: stop ## Stop and remove the Docker container
+	docker rm $(CONTAINER_NAME) || true
+
+restart: clean run ## Restart Docker container (clean + run)
 
 # =======================
 # 🪝 Hooks
