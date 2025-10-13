@@ -59,11 +59,12 @@ RUN chown -R appuser:appuser /app /opt/venv && \
     touch /var/run/nginx.pid && \
     chown appuser:appuser /var/run/nginx.pid
 
+# Copy and fix line endings BEFORE switching user
+COPY start.sh /app/start.sh
+RUN sed -i 's/\r$//' /app/start.sh && chmod +x /app/start.sh && chown appuser:appuser /app/start.sh
+
 USER appuser
 
 EXPOSE 80
-
-COPY --chown=appuser:appuser start.sh /app/start.sh
-RUN chmod +x /app/start.sh
 
 CMD ["/app/start.sh"]

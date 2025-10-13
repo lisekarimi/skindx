@@ -70,9 +70,14 @@ async def root():
 @app.get("/health")
 async def health():
     """Return API health status and model load state."""
+    if model_loader is None:
+        raise HTTPException(
+            status_code=503, detail="Service unavailable - model not loaded yet"
+        )
+
     return {
         "status": "ok",
-        "model_loaded": model_loader is not None,
+        "model_loaded": True,
         "version": VERSION,
     }
 
