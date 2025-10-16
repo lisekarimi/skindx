@@ -30,3 +30,6 @@ htmlcov/
 # Project caches & artifacts
 .cache/
 models/
+
+# Alerts
+alerts-gcp/
