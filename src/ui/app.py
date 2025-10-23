@@ -60,50 +60,6 @@ def load_custom_styles():
         st.error(f"Error loading styles: {e}")
 
 
-def inject_og_meta_tags():
-    """Inject Open Graph meta tags for social media sharing."""
-    # Convert to URL path (assuming the app serves static files from assets/static/)
-    og_image_url = "https://skindx.lisekarimi.com/assets/static/og-img.png"
-
-    # Get the current URL (you might want to customize this based on your deployment)
-    current_url = "https://skindx.lisekarimi.com"  # Update this with your actual domain
-
-    description = (
-        "AI-powered skin lesion analysis using deep learning. "
-        "Upload an image to get instant analysis of skin conditions "
-        "with confidence scores and medical insights."
-    )
-    keywords = (
-        "AI, skin analysis, dermatology, machine learning, medical AI, "
-        "skin lesions, melanoma detection"
-    )
-
-    og_meta_tags = f"""
-    <head>
-        <!-- Open Graph Meta Tags -->
-        <meta property="og:title" content="SKINDX - AI Skin Analysis">
-        <meta property="og:description" content="{description}">
-        <meta property="og:image" content="{current_url}{og_image_url}">
-        <meta property="og:url" content="{current_url}">
-        <meta property="og:type" content="website">
-        <meta property="og:site_name" content="SKINDX">
-
-        <!-- Twitter Card Meta Tags -->
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="SKINDX - AI Skin Analysis">
-        <meta name="twitter:description" content="{description}">
-        <meta name="twitter:image" content="{current_url}{og_image_url}">
-
-        <!-- Additional Meta Tags -->
-        <meta name="description" content="{description}">
-        <meta name="keywords" content="{keywords}">
-        <meta name="author" content="Lise Karimi">
-    </head>
-    """
-
-    st.markdown(og_meta_tags, unsafe_allow_html=True)
-
-
 # =============================================================================
 # UI COMPONENTS
 # =============================================================================
@@ -265,9 +221,6 @@ def render_portfolio_section():
 
 def main():
     """Return the main application entry point."""
-    # Inject Open Graph meta tags for social media sharing
-    inject_og_meta_tags()
-
     # Load custom styles
     load_custom_styles()
 
