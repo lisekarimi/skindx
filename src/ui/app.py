@@ -20,7 +20,10 @@ from src.ui.ui_utils import (
 # =============================================================================
 
 st.set_page_config(
-    page_title="SKINDX - AI Skin Analysis", page_icon="🔬", layout="wide"
+    page_title="SKINDX - AI Skin Analysis",
+    page_icon="assets/static/favicon.ico",
+    layout="wide",
+    initial_sidebar_state="expanded",
 )
 
 # =============================================================================
@@ -55,6 +58,50 @@ def load_custom_styles():
 
     except Exception as e:
         st.error(f"Error loading styles: {e}")
+
+
+def inject_og_meta_tags():
+    """Inject Open Graph meta tags for social media sharing."""
+    # Convert to URL path (assuming the app serves static files from assets/static/)
+    og_image_url = "https://skindx.lisekarimi.com/assets/static/og-img.png"
+
+    # Get the current URL (you might want to customize this based on your deployment)
+    current_url = "https://skindx.lisekarimi.com"  # Update this with your actual domain
+
+    description = (
+        "AI-powered skin lesion analysis using deep learning. "
+        "Upload an image to get instant analysis of skin conditions "
+        "with confidence scores and medical insights."
+    )
+    keywords = (
+        "AI, skin analysis, dermatology, machine learning, medical AI, "
+        "skin lesions, melanoma detection"
+    )
+
+    og_meta_tags = f"""
+    <head>
+        <!-- Open Graph Meta Tags -->
+        <meta property="og:title" content="SKINDX - AI Skin Analysis">
+        <meta property="og:description" content="{description}">
+        <meta property="og:image" content="{current_url}{og_image_url}">
+        <meta property="og:url" content="{current_url}">
+        <meta property="og:type" content="website">
+        <meta property="og:site_name" content="SKINDX">
+
+        <!-- Twitter Card Meta Tags -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="SKINDX - AI Skin Analysis">
+        <meta name="twitter:description" content="{description}">
+        <meta name="twitter:image" content="{current_url}{og_image_url}">
+
+        <!-- Additional Meta Tags -->
+        <meta name="description" content="{description}">
+        <meta name="keywords" content="{keywords}">
+        <meta name="author" content="Lise Karimi">
+    </head>
+    """
+
+    st.markdown(og_meta_tags, unsafe_allow_html=True)
 
 
 # =============================================================================
@@ -99,7 +146,7 @@ def render_sidebar():
         st.markdown(
             f"🔖 **Version:** `{sidebar_info['version']}` | "
             f"📝 [Changelog]({sidebar_info['changelog_url']}) | "
-            f"📚 [Wiki]({sidebar_info['doc_url']})"
+            f"📚 [Docs]({sidebar_info['doc_url']})"
         )
 
 
@@ -194,8 +241,33 @@ def render_upload_interface():
 # =============================================================================
 
 
+def render_portfolio_section():
+    """Render portfolio call-to-action section."""
+    st.markdown("---")
+    st.markdown(
+        """
+        <div class="portfolio-section">
+            <div class="portfolio-content">
+                <h2 class="portfolio-title">🌟 Explore More Projects</h2>
+                <p class="portfolio-description">
+                    Inspired by this AI solution? Explore more ML and AI projects. 🚀
+                </p>
+                <a href="https://lisekarimi.com"
+                   target="_blank" class="portfolio-btn">
+                    View My Portfolio
+                </a>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
 def main():
     """Return the main application entry point."""
+    # Inject Open Graph meta tags for social media sharing
+    inject_og_meta_tags()
+
     # Load custom styles
     load_custom_styles()
 
@@ -207,6 +279,9 @@ def main():
 
     # Render main interface
     render_upload_interface()
+
+    # Render portfolio section
+    render_portfolio_section()
 
     st.markdown(
         """

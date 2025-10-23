@@ -289,10 +289,11 @@ def get_sidebar_info():
         💼 [LinkedIn](https://linkedin.com/in/lisekarimi)
         🐱 [GitHub](https://github.com/lisekarimi/skindx)
         📊 [Kaggle: Model Training Notebook](https://www.kaggle.com/code/lizk75/skin-cancer-resnet-balanced-87-acc)
+        🌐 [Portfolio](https://lisekarimi.com)
         """,
         "version": VERSION,
         "changelog_url": "https://github.com/lisekarimi/skindx/blob/main/CHANGELOG.md",
-        "doc_url": "https://github.com/lisekarimi/skindx/wiki",
+        "doc_url": "https://skindx.lisekarimi.com/docs/#/",
     }
 
 

@@ -49,6 +49,9 @@ run: ## Run container locally
 	  -v $(CURDIR)/src:/app/src \
 	  -v $(CURDIR)/docs:/app/docs \
 	  $(DOCKER_IMAGE)
+	@echo "🚀 Running app at http://localhost:80"
+
+dev: build run ## Build and run container in development mode
 
 list : ## List files inside the container
 	docker run --rm $(DOCKER_IMAGE) ls -la /app
@@ -59,8 +62,9 @@ logs: ## View container logs
 stop: ## Stop the Docker container
 	docker stop $(CONTAINER_NAME) || true
 
-clean: stop ## Stop and remove the Docker container
+clean: stop ## Stop and remove the Docker container and image
 	docker rm $(CONTAINER_NAME) || true
+	docker rmi $(DOCKER_IMAGE) || true
 
 restart: clean run ## Restart Docker container (clean + run)
 
