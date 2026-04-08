@@ -54,5 +54,4 @@ This project includes a full **CI/CD pipeline** (tests, linting, security scans,
 ## 🆘 Getting Help
 
 For questions and support, you can:
-- Ask questions in the embedded chatbot
 - Connect with us on [LinkedIn](https://linkedin.com/in/lisekarimi/)

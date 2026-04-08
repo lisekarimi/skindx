@@ -236,16 +236,6 @@ def main():
     # Render portfolio section
     render_portfolio_section()
 
-    st.markdown(
-        """
-        <a href="https://docs.skindx.lisekarimi.com"
-           class="floating-chat-btn" target="_blank">
-            💬 Chat with our AI Assistant
-        </a>
-        """,
-        unsafe_allow_html=True,
-    )
-
 
 if __name__ == "__main__":
     main()
