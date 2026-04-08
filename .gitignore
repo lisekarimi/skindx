@@ -33,3 +33,6 @@ models/
 
 # Alerts
 alerts-gcp/
+
+
+.claude

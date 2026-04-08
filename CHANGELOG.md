@@ -1,5 +1,13 @@
 # 📝 Changelog
 
+## [0.3.0]
+
+### 🔄 Changed
+- Removed GCP Cloud Run + Nginx — app runs locally only
+- Docs moved to GitHub Pages (`skindx.lisekarimi.com`) with a new landing page
+- Removed PageBotAI widget and FastAPI `/docs` static mount
+
+
 ## [0.2.0]
 
 ### ✨ Added

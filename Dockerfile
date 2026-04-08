@@ -2,11 +2,11 @@ FROM python:3.11-slim
 
 # Install system dependencies
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends curl && \
+    apt-get install -y --no-install-recommends nginx curl gettext-base && \
     rm -rf /var/lib/apt/lists/*
 
-# Install uv
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
+# Install uv package manager for fast dependency resolution
+RUN pip install --no-cache-dir uv
 
 # Create non-root user
 RUN useradd -m -u 1000 appuser
@@ -51,7 +51,10 @@ RUN uv pip install \
 COPY . .
 
 # Set permissions
-RUN chown -R appuser:appuser /app /opt/venv
+RUN chown -R appuser:appuser /app /opt/venv && \
+    chown -R appuser:appuser /var/log/nginx /var/lib/nginx && \
+    touch /var/run/nginx.pid && \
+    chown appuser:appuser /var/run/nginx.pid
 
 # Copy and fix line endings BEFORE switching user
 COPY start.sh /app/start.sh
@@ -59,6 +62,6 @@ RUN sed -i 's/\r$//' /app/start.sh && chmod +x /app/start.sh && chown appuser:ap
 
 USER appuser
 
-EXPOSE 7860 8000
+EXPOSE 8080
 
 CMD ["/app/start.sh"]

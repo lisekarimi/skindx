@@ -9,6 +9,8 @@ VERSION = $(shell python3 -c "import re; print(re.search('version = \"(.*)\"', o
 include .env
 export DOCKER_USERNAME PROJECT_NAME VERSION
 
+PORT ?= 8080
+
 DOCKER_IMAGE_NB = $(DOCKER_USERNAME)/$(PROJECT_NAME)-nb
 DOCKER_IMAGE_APP = $(DOCKER_USERNAME)/$(PROJECT_NAME)-app
 CONTAINER_NAME_NB = $(PROJECT_NAME)-notebooks
@@ -44,12 +46,12 @@ build: ## Build Docker image
 run: ## Run container locally
 	docker run -d --rm --name $(CONTAINER_NAME) \
 	  --env-file .env \
-	  -p 80:80 \
-	  -v $(CURDIR)/assets:/app/assets \
-	  -v $(CURDIR)/src:/app/src \
-	  -v $(CURDIR)/docs:/app/docs \
+	  -p $(PORT):$(PORT) \
+	  -e PORT=$(PORT) \
+	  -v $(shell pwd)/assets:/app/assets \
+	  -v $(shell pwd)/src:/app/src \
 	  $(DOCKER_IMAGE)
-	@echo "🚀 Running app at http://localhost:80"
+	@echo "🚀 Running app at http://localhost:$(PORT)"
 
 dev: build run ## Build and run container in development mode
 
@@ -66,7 +68,7 @@ clean: stop ## Stop and remove the Docker container and image
 	docker rm $(CONTAINER_NAME) || true
 	docker rmi $(DOCKER_IMAGE) || true
 
-restart: clean run ## Restart Docker container (clean + run)
+restart: clean dev ## Restart Docker container (clean + build + run)
 
 # =======================
 # 🪝 Hooks
