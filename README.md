@@ -86,4 +86,4 @@ This project includes a full **CI/CD pipeline** (tests, linting, security scans,
 
 ## 📖 Documentation
 
-Additional details are available [here](https://skindx.lisekarimi.com/docs/#/).
+Additional details are available [here](https://docs.skindx.lisekarimi.com).

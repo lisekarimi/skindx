@@ -2,11 +2,9 @@
 import io
 import logging
 import time
-from pathlib import Path
 
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.responses import JSONResponse
-from fastapi.staticfiles import StaticFiles
 from PIL import Image
 
 from src.constants import (
@@ -26,14 +24,6 @@ app = FastAPI(
     docs_url="/api-docs",  # Change from default /docs to /api-docs
     redoc_url=None,
 )
-
-# Mount static files for documentation
-docs_path = Path(__file__).parent / "docs"
-if docs_path.exists():
-    app.mount("/docs", StaticFiles(directory=str(docs_path), html=True), name="docs")
-    logger.info(f"Documentation mounted at /docs from {docs_path}")
-else:
-    logger.warning(f"Documentation directory not found at {docs_path}")
 
 # Global model loader
 model_loader = None
@@ -62,7 +52,7 @@ async def root():
             "health": "/health",
             "predict": "/predict",
             "api_docs": "/api-docs",
-            "docs": "/docs",
+            "docs": "https://docs.skindx.lisekarimi.com",
         },
     }
 

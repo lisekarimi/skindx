@@ -238,7 +238,8 @@ def main():
 
     st.markdown(
         """
-        <a href="/docs/" class="floating-chat-btn" target="_blank">
+        <a href="https://docs.skindx.lisekarimi.com"
+           class="floating-chat-btn" target="_blank">
             💬 Chat with our AI Assistant
         </a>
         """,
