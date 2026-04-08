@@ -16,10 +16,10 @@
       --skin-4: #CD853F;
       --purple: #594bed;
       --purple-dark: #7c3aed;
-      --glass: rgba(255,255,255,0.15);
-      --glass-border: rgba(255,255,255,0.25);
-      --text: #ffffff;
-      --text-muted: rgba(255,255,255,0.8);
+      --glass: rgba(0,0,0,0.07);
+      --glass-border: rgba(0,0,0,0.15);
+      --text: #1a1a1a;
+      --text-muted: rgba(0,0,0,0.6);
     }
 
     html { scroll-behavior: smooth; }
@@ -40,7 +40,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 1rem 2rem;
-      background: rgba(205,133,63,0.35);
+      background: rgba(222,184,135,0.6);
       backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--glass-border);
     }
@@ -64,7 +64,7 @@
     .nav-links a:hover { color: var(--text); background: var(--glass); }
     .nav-links a.btn-nav {
       background: linear-gradient(135deg, var(--purple), var(--purple-dark));
-      color: var(--text);
+      color: #ffffff;
       padding: 0.4rem 1rem;
     }
     .nav-links a.btn-nav:hover { opacity: 0.9; background: linear-gradient(135deg, var(--purple), var(--purple-dark)); }
@@ -125,7 +125,7 @@
     }
     .btn-primary {
       background: linear-gradient(135deg, var(--purple), var(--purple-dark));
-      color: var(--text);
+      color: #ffffff;
       box-shadow: 0 4px 20px rgba(89,75,237,0.45);
     }
     .btn-primary:hover {
@@ -205,9 +205,9 @@
       border-radius: 4px;
       margin-bottom: 0.6rem;
     }
-    .tag-malignant { background: rgba(244,67,54,0.3); color: #ff8a80; }
-    .tag-precancer { background: rgba(255,152,0,0.3); color: #ffd180; }
-    .tag-benign { background: rgba(76,175,80,0.3); color: #b9f6ca; }
+    .tag-malignant { background: rgba(244,67,54,0.15); color: #c62828; }
+    .tag-precancer { background: rgba(255,152,0,0.2); color: #e65100; }
+    .tag-benign { background: rgba(76,175,80,0.15); color: #2e7d32; }
     .class-card h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.3rem; }
     .class-card p { font-size: 0.8rem; color: var(--text-muted); line-height: 1.4; }
 
@@ -229,7 +229,7 @@
       text-align: center;
       padding: 3rem 1.5rem;
       border-top: 1px solid var(--glass-border);
-      background: rgba(205,133,63,0.2);
+      background: rgba(222,184,135,0.4);
     }
     .footer-links { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1.5rem; }
     .footer-links a {
@@ -258,7 +258,7 @@
     <a href="/docs/">Documentation</a>
     <a href="https://github.com/lisekarimi/skindx">GitHub</a>
     <a href="https://huggingface.co/lisekarimi/resnet50-ham10000">Model on HF</a>
-    <a class="btn-nav" href="https://skindx.lisekarimi.com">Try the App</a>
+    <a class="btn-nav" href="https://linkedin.com/in/lisekarimi/">Request a Demo</a>
   </div>
 </nav>
 
@@ -271,11 +271,11 @@
     trained on the HAM10000 dataset. Upload a photo, get an instant prediction.
   </p>
   <div class="hero-actions">
-    <a class="btn btn-primary" href="https://skindx.lisekarimi.com">🚀 Try the App</a>
+    <a class="btn btn-primary" href="https://linkedin.com/in/lisekarimi/">💬 Request a Live Demo</a>
     <a class="btn btn-secondary" href="/docs/">📖 Documentation</a>
     <a class="btn btn-secondary" href="https://github.com/lisekarimi/skindx">⭐ GitHub</a>
   </div>
-  <p class="hero-note">App deployed on demand · Contact me on LinkedIn to request a live demo</p>
+  <p class="hero-note">App deployed on demand — reach out on LinkedIn to schedule a demo</p>
 </div>
 
 <!-- HOW IT WORKS -->
@@ -414,7 +414,7 @@
     <a href="https://linkedin.com/in/lisekarimi/">💼 LinkedIn</a>
     <a href="https://lisekarimi.com">🌐 Portfolio</a>
   </div>
-  <p>Built by <a href="https://lisekarimi.com" style="color:inherit;">Lise Karimi</a> · For educational purposes only — not a medical diagnostic tool</p>
+  <p>Built by <a href="https://lisekarimi.com" style="color:var(--text);">Lise Karimi</a> · For educational purposes only — not a medical diagnostic tool</p>
 </footer>
 
 </body>

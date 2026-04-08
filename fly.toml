@@ -37,6 +37,14 @@ primary_region = "cdg"
     hard_limit = 25
     soft_limit = 20
 
+  [[services.http_checks]]
+    interval = "15s"
+    timeout = "10s"
+    grace_period = "600s"
+    method = "GET"
+    path = "/health"
+    port = 8000
+
 # FastAPI — direct API access on :8000
 [[services]]
   internal_port = 8000
