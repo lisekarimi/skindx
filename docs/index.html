@@ -1,119 +1,421 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>SkinDx Docs</title>
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="SkinDx Documentation">
-  <meta name="author" content="Lise Karimi" />
-
-  <!-- 💊 Emoji Favicon -->
+  <title>SKINDX — Skin Lesion Classification</title>
+  <meta name="description" content="AI-powered skin lesion classification using ResNet-50. Built with PyTorch, FastAPI, and Streamlit."/>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔬</text></svg>">
-
-  <!-- Light + Dark themes -->
-  <link id="theme-light" rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/docsify-themeable/dist/css/theme-simple.css">
-  <link id="theme-dark" rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/docsify-themeable/dist/css/theme-simple-dark.css" disabled>
-
   <style>
-    #themeToggle {
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --skin-1: #F5DEB3;
+      --skin-2: #DEB887;
+      --skin-3: #D2B48C;
+      --skin-4: #CD853F;
+      --purple: #594bed;
+      --purple-dark: #7c3aed;
+      --glass: rgba(255,255,255,0.15);
+      --glass-border: rgba(255,255,255,0.25);
+      --text: #ffffff;
+      --text-muted: rgba(255,255,255,0.8);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, var(--skin-1) 0%, var(--skin-2) 30%, var(--skin-3) 65%, var(--skin-4) 100%);
+      min-height: 100vh;
+      color: var(--text);
+    }
+
+    /* ── NAV ── */
+    nav {
       position: fixed;
-      right: 16px;
-      top: 58px;
-      z-index: 9999;
-      padding: 6px 10px;
-      border-radius: 20px;
-      border: 1px solid #ddd;
-      background: #fff;
-      cursor: pointer;
-      font-size: 14px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      background: rgba(205,133,63,0.35);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--glass-border);
     }
-    #themeToggle:hover { opacity: 0.85; }
-    body[data-theme="dark"] #themeToggle {
-      background: #333;
-      border-color: #555;
-      color: #fff;
+    .nav-logo {
+      font-size: 1.3rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      color: var(--text);
+      text-decoration: none;
     }
-    @media (max-width: 768px){
-      #themeToggle { right: 12px; top: 52px; }
+    .nav-links { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+    }
+    .nav-links a:hover { color: var(--text); background: var(--glass); }
+    .nav-links a.btn-nav {
+      background: linear-gradient(135deg, var(--purple), var(--purple-dark));
+      color: var(--text);
+      padding: 0.4rem 1rem;
+    }
+    .nav-links a.btn-nav:hover { opacity: 0.9; background: linear-gradient(135deg, var(--purple), var(--purple-dark)); }
+
+    /* ── SECTIONS ── */
+    section { padding: 5rem 1.5rem; max-width: 1100px; margin: 0 auto; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding-top: 6rem;
+      max-width: 100%;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(8px);
+      border-radius: 50px;
+      padding: 0.4rem 1.2rem;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      margin-bottom: 2rem;
+      color: var(--text-muted);
+    }
+    .hero h1 {
+      font-size: clamp(3.5rem, 10vw, 7rem);
+      font-weight: 200;
+      letter-spacing: 8px;
+      line-height: 1;
+      margin-bottom: 1.5rem;
+    }
+    .hero-sub {
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      font-weight: 300;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      max-width: 600px;
+      line-height: 1.6;
+      margin-bottom: 3rem;
+    }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.9rem 2rem;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--purple), var(--purple-dark));
+      color: var(--text);
+      box-shadow: 0 4px 20px rgba(89,75,237,0.45);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(89,75,237,0.65);
+    }
+    .btn-secondary {
+      background: var(--glass);
+      color: var(--text);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(8px);
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.22); transform: translateY(-2px); }
+    .hero-note {
+      margin-top: 1.2rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* ── SECTION HEADER ── */
+    .section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .section-header h2 {
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 300;
+      letter-spacing: 3px;
+      margin-bottom: 0.75rem;
+    }
+    .section-header p {
+      color: var(--text-muted);
+      font-size: 1rem;
+      font-weight: 300;
+    }
+
+    /* ── GLASS CARD ── */
+    .card {
+      background: var(--glass);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 2rem;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; }
+    .step { text-align: center; }
+    .step-number {
+      width: 52px; height: 52px;
+      background: linear-gradient(135deg, var(--purple), var(--purple-dark));
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; font-weight: 700;
+      margin: 0 auto 1.2rem;
+      box-shadow: 0 4px 16px rgba(89,75,237,0.4);
+    }
+    .step h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; letter-spacing: 0.5px; }
+    .step p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; }
+
+    /* ── MODEL ── */
+    .model-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .stat { text-align: center; padding: 1.5rem; }
+    .stat-number { font-size: 2.8rem; font-weight: 700; letter-spacing: -1px; margin-bottom: 0.3rem; }
+    .stat-label { font-size: 0.85rem; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; }
+
+    /* ── CLASSES ── */
+    .classes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; }
+    .class-card { padding: 1.25rem 1.5rem; }
+    .class-tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      margin-bottom: 0.6rem;
+    }
+    .tag-malignant { background: rgba(244,67,54,0.3); color: #ff8a80; }
+    .tag-precancer { background: rgba(255,152,0,0.3); color: #ffd180; }
+    .tag-benign { background: rgba(76,175,80,0.3); color: #b9f6ca; }
+    .class-card h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.3rem; }
+    .class-card p { font-size: 0.8rem; color: var(--text-muted); line-height: 1.4; }
+
+    /* ── TECH STACK ── */
+    .tech-grid { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; }
+    .tech-pill {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(8px);
+      border-radius: 50px;
+      padding: 0.5rem 1.2rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 3rem 1.5rem;
+      border-top: 1px solid var(--glass-border);
+      background: rgba(205,133,63,0.2);
+    }
+    .footer-links { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1.5rem; }
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--text); }
+    footer p { font-size: 0.8rem; color: var(--text-muted); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      nav { padding: 0.8rem 1rem; }
+      .model-grid { grid-template-columns: 1fr 1fr; }
     }
   </style>
 </head>
 <body>
-  <div id="app"></div>
-  <button id="themeToggle" title="Toggle theme">🌙</button>
 
-  <script>
-    window.$docsify = {
-      name: 'SkinDx Docs',
-      repo: 'https://github.com/lisekarimi/skindx',
-      loadSidebar: true,
-      loadNavbar: true,
-      subMaxLevel: 2,
-      search: {
-        maxAge: 86400000,
-        paths: 'auto',
-        placeholder: '🔍 Search',
-        noData: 'No results found!',
-        depth: 6,
-        hideOtherSidebarContent: false,
-      },
-      pagination: {
-        previousText: 'Previous',
-        nextText: 'Next',
-        crossChapter: true,
-        crossChapterText: true,
-      },
-      copyCode: {
-        buttonText: 'Copy',
-        errorText: 'Error',
-        successText: 'Copied!'
-      },
-      plugins: [
-        function (hook) {
-          hook.doneEach(function () {
-            document.title = 'SkinDx Docs';
-          });
-        }
-      ]
-    };
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="/">🔬 SKINDX</a>
+  <div class="nav-links">
+    <a href="/docs/">Documentation</a>
+    <a href="https://github.com/lisekarimi/skindx">GitHub</a>
+    <a href="https://huggingface.co/lisekarimi/resnet50-ham10000">Model on HF</a>
+    <a class="btn-nav" href="https://skindx.lisekarimi.com">Try the App</a>
+  </div>
+</nav>
 
-    // Theme toggle
-    (function () {
-      const KEY = 'docsify-theme';
-      const light = document.getElementById('theme-light');
-      const dark  = document.getElementById('theme-dark');
-      const saved = localStorage.getItem(KEY);
-      const prefersDark = matchMedia('(prefers-color-scheme: dark)').matches;
-      const toggleBtn = document.getElementById('themeToggle');
+<!-- HERO -->
+<div class="hero">
+  <span class="hero-badge">🩺 AI · Dermatology · Computer Vision</span>
+  <h1>SKINDX</h1>
+  <p class="hero-sub">
+    AI-powered skin lesion classification using ResNet-50,
+    trained on the HAM10000 dataset. Upload a photo, get an instant prediction.
+  </p>
+  <div class="hero-actions">
+    <a class="btn btn-primary" href="https://skindx.lisekarimi.com">🚀 Try the App</a>
+    <a class="btn btn-secondary" href="/docs/">📖 Documentation</a>
+    <a class="btn btn-secondary" href="https://github.com/lisekarimi/skindx">⭐ GitHub</a>
+  </div>
+  <p class="hero-note">App deployed on demand · Contact me on LinkedIn to request a live demo</p>
+</div>
 
-      function apply(theme){
-        dark.disabled  = theme !== 'dark';
-        light.disabled = theme === 'dark';
-        localStorage.setItem(KEY, theme);
-        toggleBtn.textContent = theme === 'dark' ? '☀️' : '🌙';
-        document.body.setAttribute('data-theme', theme);
-      }
+<!-- HOW IT WORKS -->
+<section>
+  <div class="section-header">
+    <h2>HOW IT WORKS</h2>
+    <p>Four steps from photo to diagnosis</p>
+  </div>
+  <div class="steps">
+    <div class="card step">
+      <div class="step-number">1</div>
+      <h3>Upload Photo</h3>
+      <p>Upload a dermoscopy or regular photo of a skin lesion via the web interface</p>
+    </div>
+    <div class="card step">
+      <div class="step-number">2</div>
+      <h3>Click Analyze</h3>
+      <p>Hit the Analyze button — the image is sent to the FastAPI inference service</p>
+    </div>
+    <div class="card step">
+      <div class="step-number">3</div>
+      <h3>AI Predicts</h3>
+      <p>ResNet-50 classifies the lesion across 7 categories with a confidence score</p>
+    </div>
+    <div class="card step">
+      <div class="step-number">4</div>
+      <h3>View Results</h3>
+      <p>See the predicted class, risk level, confidence chart, and all probabilities</p>
+    </div>
+  </div>
+</section>
 
-      apply(saved || (prefersDark ? 'dark' : 'light'));
-      toggleBtn.onclick = () => apply(dark.disabled ? 'dark' : 'light');
-    })();
-  </script>
+<!-- MODEL -->
+<section>
+  <div class="section-header">
+    <h2>THE MODEL</h2>
+    <p>ResNet-50 fine-tuned on HAM10000</p>
+  </div>
+  <div class="card model-grid">
+    <div class="stat">
+      <div class="stat-number">87%</div>
+      <div class="stat-label">Accuracy</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">7</div>
+      <div class="stat-label">Lesion Classes</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">10K+</div>
+      <div class="stat-label">Training Images</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">50</div>
+      <div class="stat-label">ResNet Layers</div>
+    </div>
+  </div>
+  <div style="text-align:center; margin-top:1.5rem;">
+    <a class="btn btn-secondary" href="https://www.kaggle.com/code/lizk75/skin-cancer-resnet-balanced-87-acc">
+      📊 View Training Notebook on Kaggle
+    </a>
+  </div>
+</section>
 
-  <!-- Docsify core + plugins -->
+<!-- LESION CLASSES -->
+<section>
+  <div class="section-header">
+    <h2>WHAT IT CLASSIFIES</h2>
+    <p>7 lesion types across malignant, pre-cancerous, and benign categories</p>
+  </div>
+  <div class="classes-grid">
+    <div class="card class-card">
+      <span class="class-tag tag-malignant">Malignant</span>
+      <h4>Melanoma</h4>
+      <p>Most dangerous skin cancer, requires immediate attention</p>
+    </div>
+    <div class="card class-card">
+      <span class="class-tag tag-malignant">Malignant</span>
+      <h4>Basal Cell Carcinoma</h4>
+      <p>Most common skin cancer, highly treatable if caught early</p>
+    </div>
+    <div class="card class-card">
+      <span class="class-tag tag-precancer">Pre-cancerous</span>
+      <h4>Actinic Keratosis</h4>
+      <p>Rough, scaly patch that can develop into skin cancer</p>
+    </div>
+    <div class="card class-card">
+      <span class="class-tag tag-benign">Benign</span>
+      <h4>Melanocytic Nevi</h4>
+      <p>Common moles, usually harmless</p>
+    </div>
+    <div class="card class-card">
+      <span class="class-tag tag-benign">Benign</span>
+      <h4>Benign Keratosis</h4>
+      <p>Non-cancerous skin growths</p>
+    </div>
+    <div class="card class-card">
+      <span class="class-tag tag-benign">Benign</span>
+      <h4>Dermatofibroma</h4>
+      <p>Harmless fibrous nodules</p>
+    </div>
+    <div class="card class-card">
+      <span class="class-tag tag-benign">Benign</span>
+      <h4>Vascular Lesions</h4>
+      <p>Blood vessel abnormalities on the skin</p>
+    </div>
+  </div>
+</section>
 
-  <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/docsify/lib/plugins/emoji.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/docsify-copy-code/dist/docsify-copy-code.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/docsify-pagination/dist/docsify-pagination.min.js"></script>
-  <!-- Language highlighting -->
-  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-python.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-yaml.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-json.min.js"></script>
+<!-- TECH STACK -->
+<section>
+  <div class="section-header">
+    <h2>TECH STACK</h2>
+    <p>Built end-to-end — from training to deployment</p>
+  </div>
+  <div class="tech-grid">
+    <span class="tech-pill">🐍 Python</span>
+    <span class="tech-pill">🔥 PyTorch</span>
+    <span class="tech-pill">⚡ FastAPI</span>
+    <span class="tech-pill">🎈 Streamlit</span>
+    <span class="tech-pill">🐳 Docker</span>
+    <span class="tech-pill">🤗 HuggingFace</span>
+    <span class="tech-pill">📊 MLflow</span>
+    <span class="tech-pill">🔁 GitHub Actions</span>
+    <span class="tech-pill">🧪 Pytest</span>
+    <span class="tech-pill">📦 uv</span>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-links">
+    <a href="https://github.com/lisekarimi/skindx">⭐ GitHub</a>
+    <a href="/docs/">📖 Documentation</a>
+    <a href="https://huggingface.co/lisekarimi/resnet50-ham10000">🤗 Model</a>
+    <a href="https://www.kaggle.com/code/lizk75/skin-cancer-resnet-balanced-87-acc">📊 Kaggle</a>
+    <a href="https://linkedin.com/in/lisekarimi/">💼 LinkedIn</a>
+    <a href="https://lisekarimi.com">🌐 Portfolio</a>
+  </div>
+  <p>Built by <a href="https://lisekarimi.com" style="color:inherit;">Lise Karimi</a> · For educational purposes only — not a medical diagnostic tool</p>
+</footer>
+
 </body>
 </html>

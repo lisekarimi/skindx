@@ -293,7 +293,7 @@ def get_sidebar_info():
         """,
         "version": VERSION,
         "changelog_url": "https://github.com/lisekarimi/skindx/blob/main/CHANGELOG.md",
-        "doc_url": "https://docs.skindx.lisekarimi.com",
+        "doc_url": "https://skindx.lisekarimi.com/docs/",
     }
 
 

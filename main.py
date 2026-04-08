@@ -52,7 +52,7 @@ async def root():
             "health": "/health",
             "predict": "/predict",
             "api_docs": "/api-docs",
-            "docs": "https://docs.skindx.lisekarimi.com",
+            "docs": "https://skindx.lisekarimi.com/docs/",
         },
     }
 
