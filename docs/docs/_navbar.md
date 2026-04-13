@@ -1,3 +1,3 @@
-- [🏠 Home](/)
-- [Try It Live 🚀](https://skindx.lisekarimi.com/)
+- [🏠 Home](https://skindx.lisekarimi.com/docs/)
+- [Try It Live 🚀](https://huggingface.co/spaces/lisekarimi/skindx-app)
 - [LinkedIn](https://www.linkedin.com/in/lisekarimi/)
