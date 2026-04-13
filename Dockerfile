@@ -2,7 +2,7 @@ FROM python:3.11-slim
 
 # Install system dependencies
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends nginx curl gettext-base && \
+    apt-get install -y --no-install-recommends curl && \
     rm -rf /var/lib/apt/lists/*
 
 # Install uv package manager for fast dependency resolution
@@ -51,10 +51,7 @@ RUN uv pip install \
 COPY . .
 
 # Set permissions
-RUN chown -R appuser:appuser /app /opt/venv && \
-    chown -R appuser:appuser /var/log/nginx /var/lib/nginx && \
-    touch /var/run/nginx.pid && \
-    chown appuser:appuser /var/run/nginx.pid
+RUN chown -R appuser:appuser /app /opt/venv
 
 # Copy and fix line endings BEFORE switching user
 COPY start.sh /app/start.sh
@@ -62,6 +59,6 @@ RUN sed -i 's/\r$//' /app/start.sh && chmod +x /app/start.sh && chown appuser:ap
 
 USER appuser
 
-EXPOSE 8080
+EXPOSE 7860
 
 CMD ["/app/start.sh"]

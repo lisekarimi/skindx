@@ -1,7 +1,7 @@
 [project]
 name = "skindx"
 version = "0.3.0"
-description = "AI that detects skin cancer and answers dermatology questions"
+description = "AI that detects skin cancer"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [

@@ -3,9 +3,15 @@
 ## [0.3.0]
 
 ### 🔄 Changed
-- Removed GCP Cloud Run + Nginx — app runs locally only
-- Docs moved to GitHub Pages (`skindx.lisekarimi.com`) with a new landing page
+- Migrated deployment from GCP Cloud Run to Hugging Face Spaces (Docker)
+- Removed Nginx — Streamlit serves directly on port 7860, FastAPI internal on 8000
+- Docs moved to GitHub Pages with refreshed landing page
 - Removed PageBotAI widget and FastAPI `/docs` static mount
+- Updated landing page (`docs/index.html`): mobile-friendly navbar with hamburger menu, orange/skin theme, HF Spaces demo link
+- Updated `Makefile` default port from `8080` to `7860`
+
+### 🗑️ Removed
+- `nginx.conf` — no longer needed
 
 
 ## [0.2.0]

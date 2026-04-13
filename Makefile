@@ -9,7 +9,7 @@ VERSION = $(shell python3 -c "import re; print(re.search('version = \"(.*)\"', o
 include .env
 export DOCKER_USERNAME PROJECT_NAME VERSION
 
-PORT ?= 8080
+PORT ?= 7860
 
 DOCKER_IMAGE_NB = $(DOCKER_USERNAME)/$(PROJECT_NAME)-nb
 DOCKER_IMAGE_APP = $(DOCKER_USERNAME)/$(PROJECT_NAME)-app

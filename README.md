@@ -1,3 +1,13 @@
+---
+title: SKINDX
+emoji: 🔬
+colorFrom: orange
+colorTo: yellow
+sdk: docker
+app_port: 7860
+pinned: false
+---
+
 # 🔬 SKINDX – AI Skin Lesion Analysis
 
 Upload a skin photo and the AI will classify it into one of 7 lesion types.
