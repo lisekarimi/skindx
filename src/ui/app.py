@@ -31,6 +31,12 @@ st.set_page_config(
 # =============================================================================
 
 
+@st.cache_data
+def _load_css_cached(css_file, bg_image):
+    """Load and cache CSS with background image."""
+    return load_css_with_background(css_file, bg_image)
+
+
 def load_custom_styles():
     """Load custom CSS styling."""
     css_file = os.path.join(
@@ -41,7 +47,7 @@ def load_custom_styles():
     )
 
     try:
-        css_with_bg = load_css_with_background(css_file, bg_image)
+        css_with_bg = _load_css_cached(css_file, bg_image)
         st.markdown(f"<style>{css_with_bg}</style>", unsafe_allow_html=True)
 
         # Hide file uploader info box
