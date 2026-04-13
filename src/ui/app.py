@@ -184,18 +184,16 @@ def render_upload_interface():
                 st.image(image, caption="Uploaded Image", use_container_width=True)
 
             # Predict button
-            if st.button(
+            analyze = st.button(
                 "🔍 Analyze Skin Lesion", use_container_width=True, type="primary"
-            ):
-                with st.spinner("🤖 Analyzing your image..."):
-                    # Reset file pointer
-                    uploaded_file.seek(0)
+            )
 
-                    # Get prediction
-                    result = get_prediction(uploaded_file)
-
-                    # Render results
-                    render_prediction_results(result)
+    # Render results outside columns to avoid layout reflow on wide screens
+    if uploaded_file is not None and analyze:
+        with st.spinner("🤖 Analyzing your image..."):
+            uploaded_file.seek(0)
+            result = get_prediction(uploaded_file)
+            render_prediction_results(result)
 
 
 # =============================================================================
